@@ -33,14 +33,14 @@ GUILD_ID = discord.Object(id=1320230407157055598)
 @client.tree.command(name="fish", description="Start fishing", guild=GUILD_ID)
 async def startGame(interaction: discord.Interaction):
   global xp
-  fish, xp = fishing(rarity, fish_list, inventory, xp)
+  fish_rarity, fish, xp = fishing(rarity, fish_list, inventory, xp)
   level, remaining_xp, level_up = calculate_level(xp)
   embed = discord.Embed(title='Fishing', description='...', color=discord.Color.blue())
   await interaction.response.send_message(embed=embed)
   
   time.sleep(1)
   if level_up == True:
-    embed = discord.Embed(title='Fisch', description=f'Congratulations, you caught a {fish}\n\nYou gained 10xp\n\nYou levelled up! You are now level {level}', color=discord.Color.blue())
+    embed = discord.Embed(title='Fisch', description=f'Congratulations, you caught a {fish_rarity} {fish}\n\nYou gained 10xp\n\nYou levelled up! You are now level {level}', color=discord.Color.blue())
   else:
     embed = discord.Embed(title='Fisch', description=f'Congratulations, you caught a {fish}\n\nYou gained 10xp', color=discord.Color.blue())
   await interaction.edit_original_response(embed=embed)
