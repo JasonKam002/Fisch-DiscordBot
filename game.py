@@ -1,4 +1,5 @@
 import random
+from itertools import repeat
 
 
 class fish:
@@ -7,14 +8,22 @@ class fish:
       self.value = value
       self.rarity = rarity
 
-rarity = ['common', 'common', 'common', 'common', 'common', 'rare', 'rare', 'rare', 'epic', 'epic', 'legendary']
-goldfish = fish('goldfish', 5, 'common')
-clownfish = fish('clownfish', 5, 'common')
-swordfish = fish('swordfish', 10, 'rare')
-shark = fish('shark', 20, 'epic') 
-megladon = fish('megludon', 50, 'legendary')
+# Sets the rarity rate
+rarity = []
+rarity.extend(repeat('common', 50))
+rarity.extend(repeat('rare', 30))
+rarity.extend(repeat('epic', 15))
+rarity.extend(repeat('legendary', 5)
+rarity.extend(repeat('mythical', 1))
 
-fish_list = [goldfish, clownfish, swordfish, shark, megladon]
+# Create the fishes
+trout = fish('goldfish', 5, 'common')
+clownfish = fish('clownfish', 5, 'rare')
+swordfish = fish('swordfish', 10, 'epic')
+shark = fish('shark', 20, 'legendary') 
+megladon = fish('megludon', 50, 'mythical')
+
+fish_list = [trout, clownfish, swordfish, shark, megladon]
     
 def fishing(rarity_list, fish_list, inventory, xp):
     fish_avaiable = []
@@ -27,7 +36,7 @@ def fishing(rarity_list, fish_list, inventory, xp):
     fish_avaiable = []
     inventory.append(fish_selected)
   
-    return fish_selected, xp+10
+    return fish_rarity, fish_selected, xp+10
 
 def sell(inventory, fish_list, bank, sell_fish):
     if sell_fish.lower() == 'all':
