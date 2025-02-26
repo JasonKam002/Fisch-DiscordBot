@@ -3,28 +3,42 @@ from itertools import repeat
 
 
 class fish:
-  def __init__(self, name, value, rarity):
+  def __init__(self, name, base_price, minkg, maxkg, rarity):
       self.name = name
-      self.value = value
+      self.base_price = base_price
+      self.minkg = minkg
+      self.maxkg = maxkg
       self.rarity = rarity
+
+class rod:
+   def __init__(self, name, strength, price):
+      self.name = name
+      self.strength = strength
+      self.price = price
 
 # Sets the rarity rate
 rarity = []
 rarity.extend(repeat('common', 50))
 rarity.extend(repeat('rare', 30))
 rarity.extend(repeat('epic', 15))
-rarity.extend(repeat('legendary', 5)
+rarity.extend(repeat('legendary', 5))
 rarity.extend(repeat('mythical', 1))
 
 # Create the fishes
-trout = fish('goldfish', 5, 'common')
-clownfish = fish('clownfish', 5, 'rare')
-swordfish = fish('swordfish', 10, 'epic')
-shark = fish('shark', 20, 'legendary') 
-megladon = fish('megludon', 50, 'mythical')
+trout = fish('goldfish', 50, 1, 15 'common')
+clownfish = fish('clownfish', 75, 5, 25, 'rare')
+swordfish = fish('swordfish', 125, 25, 45  'epic')
+shark = fish('shark', 300, 45, 75, 'legendary') 
+megladon = fish('megludon', 500, 75, 150, 'mythical')
 
 fish_list = [trout, clownfish, swordfish, shark, megladon]
-    
+
+# Create the rods
+starting_rod = rod('Starting Rod', 15, 0)
+wooden_rod = rod('Wooden Rod', 45, 500)
+metal_rod = rod('Metal Rod', 75, 1000)
+jason_rod = rod("Jason's rod", 150, 5000)
+
 def fishing(rarity_list, fish_list, inventory, xp):
     fish_avaiable = []
     fish_rarity = random.choice(rarity_list)
