@@ -3,11 +3,11 @@ from itertools import repeat
 
 
 class fish:
-  def __init__(self, name, base_price, minkg, maxkg, rarity):
+  def __init__(self, name, base_price, minKg, maxKg, rarity):
       self.name = name
       self.base_price = base_price
-      self.minkg = minkg
-      self.maxkg = maxkg
+      self.minKg = minKg
+      self.maxKg = maxKg
       self.rarity = rarity
 
 class rod:
@@ -15,6 +15,12 @@ class rod:
       self.name = name
       self.strength = strength
       self.price = price
+
+class backpack:
+    def __init__(self, name, carry_load, price):
+        self.name = name
+        self.carry_load = carry_load
+        self.price = price
 
 # Sets the rarity rate
 rarity = []
@@ -25,21 +31,25 @@ rarity.extend(repeat('legendary', 5))
 rarity.extend(repeat('mythical', 1))
 
 # Create the fishes
-trout = fish('goldfish', 50, 1, 15 'common')
+# (name, base_price, minKg, maxKg, rarity)
+trout = fish('goldfish', 50, 1, 15, 'common')
 clownfish = fish('clownfish', 75, 5, 25, 'rare')
-swordfish = fish('swordfish', 125, 25, 45  'epic')
+swordfish = fish('swordfish', 125, 25, 45 , 'epic')
 shark = fish('shark', 300, 45, 75, 'legendary') 
 megladon = fish('megludon', 500, 75, 150, 'mythical')
 
 fish_list = [trout, clownfish, swordfish, shark, megladon]
 
 # Create the rods
+# (name, strength, price)
 starting_rod = rod('Starting Rod', 15, 0)
 wooden_rod = rod('Wooden Rod', 45, 500)
 metal_rod = rod('Metal Rod', 75, 1000)
 jason_rod = rod("Jason's rod", 150, 5000)
 
-def fishing(rarity_list, fish_list, inventory, xp):
+rod_list = [starting_rod, wooden_rod, metal_rod, jason_rod]
+
+def fishing(rarity_list, fish_list, inventory, xp, rod_equipped, backpack_equipped):
     fish_avaiable = []
     fish_rarity = random.choice(rarity_list)
     for i in fish_list:
@@ -47,10 +57,20 @@ def fishing(rarity_list, fish_list, inventory, xp):
             fish_avaiable.append(i.name)
 
     fish_selected = random.choice(fish_avaiable)
+    fish_selected_weight = random.randint(fish_selected.minKg, fish_selected.maxKg)
+    if rod_equipped.strength < fish_selected_weight:
+        fish_caught = False
+    else:
+        if len(inventory) >= backpack.carry_load:
+            fish_caught = False
+        else:
+            fish_caught = True
+            inventory.append(fish_selected)
+            xp += 10
+
     fish_avaiable = []
-    inventory.append(fish_selected)
   
-    return fish_rarity, fish_selected, xp+10
+    return fish_rarity, fish_selected, fish_caught, xp
 
 def sell(inventory, fish_list, bank, sell_fish):
     if sell_fish.lower() == 'all':
