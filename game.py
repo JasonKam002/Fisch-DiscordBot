@@ -43,11 +43,20 @@ fish_list = [trout, clownfish, swordfish, shark, megladon]
 # Create the rods
 # (name, strength, price)
 starting_rod = rod('Starting Rod', 15, 0)
-wooden_rod = rod('Wooden Rod', 45, 500)
-metal_rod = rod('Metal Rod', 75, 1000)
+basic_rod = rod('Basic Rod', 45, 500)
+advanced_rod = rod('Advanced Rod', 75, 1000)
 jason_rod = rod("Jason's rod", 150, 5000)
 
-rod_list = [starting_rod, wooden_rod, metal_rod, jason_rod]
+rod_list = [starting_rod, basic_rod, advanced_rod, jason_rod]
+
+# Create the backpacks
+# (name, carry_load, price)
+starting_backpack = backpack('Starting Backpack', 20, 0)
+basic_backpack = backpack('Basic Backpack', 35, 500)
+advanced_backpack = backpack('Advanced Backpack', 50, 1000)
+jason_backpack = backpack("Jason's Backpack", 100, 5000)
+
+backpack_list = [starting_backpack, basic_backpack, advanced_backpack, jason_backpack]
 
 def fishing(rarity_list, fish_list, inventory, xp, rod_equipped, backpack_equipped):
     fish_avaiable = []
