@@ -66,11 +66,13 @@ def fishing(rarity_list, fish_list, inventory, xp, rod_equipped, backpack_equipp
             fish_avaiable.append(i.name)
 
     fish_selected = random.choice(fish_avaiable)
-    fish_selected_weight = random.randint(fish_selected.minKg, fish_selected.maxKg)
+    for i in fish_list:
+        if i.name == fish_selected:
+            fish_selected_weight =  random.randint(i.minKg, i.maxKg)
     if rod_equipped.strength < fish_selected_weight:
         fish_caught = False
     else:
-        if len(inventory) >= backpack.carry_load:
+        if len(inventory) >= backpack_equipped.carry_load:
             fish_caught = False
         else:
             fish_caught = True
@@ -111,3 +113,6 @@ def calculate_level(xp):
     level_up = False
 
   return level, remaining_xp, level_up
+
+
+

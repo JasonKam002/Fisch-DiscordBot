@@ -6,9 +6,9 @@ from game import fishing, sell, fish_list, rarity, calculate_level, rod_list, ba
 from bot_token import token
 
 inventory = []
-rod_equipped = starting_rod
-backpack_equipped = starting_backpack
-bank = 0
+rod_equipped = rod_list[0]
+backpack_equipped = backpack_list[0]
+starting_cash = 0
 xp = 0
 
 class Client(commands.Bot):
@@ -49,6 +49,7 @@ async def fish(interaction: discord.Interaction):
     await interaction.edit_original_response(embed=embed)
   else:
     embed = discord.Embed(title='Fisch', description=f'The fish escaped! Your rod need more stength')
+    await interaction.edit_original_response(embed=embed)
 
 # show inventory
 @client.tree.command(name="inv", description="Shows your inventory", guild=GUILD_ID)
@@ -59,7 +60,7 @@ async def showInventory(interaction: discord.Interaction):
 # sell
 @client.tree.command(name="sell", description= "Sell your fishes", guild=GUILD_ID)
 async def sellFishes(interaction: discord.Interaction, sell_fish: str):
-  cash = sell(inventory, fish_list, bank, sell_fish)
+  cash = sell(inventory, fish_list, starting_cash, sell_fish)
   time.sleep(1)
   if sell_fish == 'all':
     embed = discord.Embed(title='Sell', description=f'You sold {sell_fish} \nYour bank: ${cash}', color=discord.Color.blue())
@@ -67,6 +68,15 @@ async def sellFishes(interaction: discord.Interaction, sell_fish: str):
     embed = discord.Embed(title='Sell', description=f'You sold a {sell_fish} \nYour bank: ${cash}', color=discord.Color.blue())
     
   await interaction.response.send_message(embed=embed)
+
+# shop
+@client.tree.command(name="shop", description="Buy new fishing gear", guild=GUILD_ID)
+async def shop(interaction: discord.Interaction, buy_tool: str):
+  if buy_tool == 'help':
+    embed = discord.Embed(title="Shop", description=f'Item avaiable')
+
+    await interaction.response.send_message(embed=embed)
+  
 
 # show level
 @client.tree.command(name="level", description="Shows your level", guild=GUILD_ID)
