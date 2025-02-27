@@ -2,10 +2,12 @@ import discord
 import time
 from discord.ext import commands
 from discord import app_commands
-from game import fishing, sell, fish_list, rarity, calculate_level
+from game import fishing, sell, fish_list, rarity, calculate_level, rod_list, backpack_list
 from bot_token import token
 
 inventory = []
+rod_equipped = starting_rod
+backpack_equipped = starting_backpack
 bank = 0
 xp = 0
 
@@ -31,19 +33,22 @@ GUILD_ID = discord.Object(id=1320230407157055598)
 
 # fishing
 @client.tree.command(name="fish", description="Start fishing", guild=GUILD_ID)
-async def startGame(interaction: discord.Interaction):
+async def fish(interaction: discord.Interaction):
   global xp
-  fish_rarity, fish, xp = fishing(rarity, fish_list, inventory, xp)
+  fish_rarity, fish, fish_caught, xp = fishing(rarity, fish_list, inventory, xp, rod_equipped, backpack_equipped)
   level, remaining_xp, level_up = calculate_level(xp)
   embed = discord.Embed(title='Fishing', description='...', color=discord.Color.blue())
   await interaction.response.send_message(embed=embed)
   
   time.sleep(1)
-  if level_up == True:
-    embed = discord.Embed(title='Fisch', description=f'Congratulations, you caught a {fish_rarity} {fish}\n\nYou gained 10xp\n\nYou levelled up! You are now level {level}', color=discord.Color.blue())
+  if fish_caught == True:
+    if level_up == True:
+        embed = discord.Embed(title='Fisch', description=f'Congratulations, you caught a {fish_rarity} {fish}\n\nYou gained 10xp\n\nYou levelled up! You are now level {level}', color=discord.Color.blue())
+    else:
+        embed = discord.Embed(title='Fisch', description=f'Congratulations, you caught a {fish}\n\nYou gained 10xp', color=discord.Color.blue())
+    await interaction.edit_original_response(embed=embed)
   else:
-    embed = discord.Embed(title='Fisch', description=f'Congratulations, you caught a {fish}\n\nYou gained 10xp', color=discord.Color.blue())
-  await interaction.edit_original_response(embed=embed)
+    embed = discord.Embed(title='Fisch', description=f'The fish escaped! Your rod need more stength')
 
 # show inventory
 @client.tree.command(name="inv", description="Shows your inventory", guild=GUILD_ID)
