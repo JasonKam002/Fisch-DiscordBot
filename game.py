@@ -60,6 +60,7 @@ backpack_list = [starting_backpack, basic_backpack, advanced_backpack, jason_bac
 
 def fishing(rarity_list, fish_list, inventory, xp, rod_equipped, backpack_equipped):
     fish_avaiable = []
+    inv_full = False
     fish_rarity = random.choice(rarity_list)
     for i in fish_list:
         if i.rarity == fish_rarity:
@@ -74,6 +75,7 @@ def fishing(rarity_list, fish_list, inventory, xp, rod_equipped, backpack_equipp
     else:
         if len(inventory) >= backpack_equipped.carry_load:
             fish_caught = False
+            inv_full = True
         else:
             fish_caught = True
             inventory.append(fish_selected)
@@ -81,7 +83,7 @@ def fishing(rarity_list, fish_list, inventory, xp, rod_equipped, backpack_equipp
 
     fish_avaiable = []
   
-    return fish_rarity, fish_selected, fish_caught, xp
+    return fish_rarity, fish_selected, fish_caught, fish_selected_weight, inv_full, xp
 
 def sell(inventory, fish_list, bank, sell_fish):
     if sell_fish.lower() == 'all':
